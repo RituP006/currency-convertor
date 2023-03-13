@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.currencyexchange.data.CurrencyExchangeResDTO;
 import com.backend.currencyexchange.service.CurrencyExchangeService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/service/currency-convertor")
 public class CurrencyExchangeController {

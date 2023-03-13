@@ -23,7 +23,7 @@ public class ExchangeRateDataAPIService {
 	@Value("${api.exchangeRate.secret}")
 	private String secret;
 	private String BASE_URL = "https://api.apilayer.com/exchangerates_data/latest";
-	public String source = "https://exchangeratesapi.io/";
+	public String source = "https://exchangeratesapi.io";
 	
 	private static Logger logger = LoggerFactory.getLogger(ExchangeRateDataAPIService.class.getName());
 	
@@ -58,10 +58,9 @@ public class ExchangeRateDataAPIService {
 		    }
 		}catch(SocketTimeoutException e) {
 			logger.error("SocketTimeoutException Inside ExchangeRateDataAPIService.getCurrencyExchangeRate: ");
-			e.printStackTrace();
 		} 
-		catch (IOException e) {
-			logger.error("IOEXception Inside ExchangeRateDataAPIService.getCurrencyExchangeRate: ");
+		catch (Exception e) {
+			logger.error("Exception Inside ExchangeRateDataAPIService.getCurrencyExchangeRate: ");
 			e.printStackTrace();
 		}
 	    responseObject.setSource(this.source);

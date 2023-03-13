@@ -1,6 +1,5 @@
 package com.backend.currencyexchange.utils;
 
-import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Date;
 
@@ -20,9 +19,9 @@ import okhttp3.Response;
 @Service
 public class FixerService {
 	
-	@Value("${api.fixer.secret}")
+	@Value("${api.currencyData.secret}")
 	private String secret;
-	private String BASE_URL = "https://api.apilayer.com/fixer/latest";
+	private String BASE_URL = "https://api.apilayer.com/currency_data/live?";
 	public String source = "https://fixer.io";
 	
 	private static Logger logger = LoggerFactory.getLogger(FixerService.class.getName());
@@ -35,7 +34,7 @@ public class FixerService {
 		OkHttpClient client = new OkHttpClient().newBuilder().build();
 		HttpUrl.Builder urlBuilder 
 	      = HttpUrl.parse(BASE_URL).newBuilder();
-	    urlBuilder.addQueryParameter("symbols", to).addQueryParameter("base",from);
+	    urlBuilder.addQueryParameter("currencies", to).addQueryParameter("source",from);
 
 	    String url = urlBuilder.build().toString();
 		
@@ -43,14 +42,15 @@ public class FixerService {
 	      .url(url)
 	      .addHeader("apikey",secret)
 	      .build();
-
+	    
 	    Response response;
 		try {
 			response = client.newCall(request).execute();
 		    if(response.isSuccessful()) {
 		    	JSONObject jsonResponse = new JSONObject(response.body().string());
                 Date date=new Date(jsonResponse.getInt("timestamp"));  
-                Double exRate = jsonResponse.getJSONObject("rates").getDouble(to);
+                Double exRate = jsonResponse.getJSONObject("quotes").getDouble(from+to);
+                System.out.println(exRate);
 		    	responseObject.setExchangeRate(exRate);
 		    	responseObject.setDate(date);
 		    }else {
@@ -58,10 +58,9 @@ public class FixerService {
 		    }
 		}catch(SocketTimeoutException e) {
 			logger.error("SocketTimeoutException Inside FixerService.getCurrencyExchangeRate: ");
-			e.printStackTrace();
 		} 
-		catch (IOException e) {
-			logger.error("IOEXception Inside FixerService.getCurrencyExchangeRate: ");
+		catch (Exception e) {
+			logger.error("Exception Inside FixerService.getCurrencyExchangeRate: ");
 			e.printStackTrace();
 		}
 	    responseObject.setSource(this.source);

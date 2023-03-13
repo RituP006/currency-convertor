@@ -59,10 +59,9 @@ public class CurrencyAPIService {
 		    }
 		}catch(SocketTimeoutException e) {
 			logger.error("SocketTimeoutException Inside CurrencyAPIService.getCurrencyExchangeRate: ");
-			e.printStackTrace();
 		} 
-		catch (IOException e) {
-			logger.error("IOEXception Inside CurrencyAPIService.getCurrencyExchangeRate: ");
+		catch (Exception e) {
+			logger.error("Exception Inside CurrencyAPIService.getCurrencyExchangeRate: ");
 			e.printStackTrace();
 		}
 	    responseObject.setSource(this.source);

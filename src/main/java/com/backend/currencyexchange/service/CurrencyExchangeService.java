@@ -7,6 +7,6 @@ import com.backend.currencyexchange.data.CurrencyExchangeResDTO;
 
 public interface CurrencyExchangeService {
 
-	ArrayList<CurrencyExchangeResDTO> getCurrencyExchangeRate(String from, String to) throws IOException;
+	ArrayList<CurrencyExchangeResDTO> getCurrencyExchangeRate(String from, String to);
 
 }
